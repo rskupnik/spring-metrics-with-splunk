@@ -1,0 +1,6 @@
+management.metrics.export.statsd:
+  enabled: true
+  flavor: telegraf
+  port: 8125
+
+management.endpoints.web.exposure.include: metrics

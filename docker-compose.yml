@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+
+  telegraf:
+    image: telegraf:1.17.2
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ./logs/telegraf:/var/log
+    ports:
+      - "8125:8125/udp"
+
+  splunk:
+    image: splunk/splunk:8.1.2
+    volumes:
+      - ./splunk-config.yml:/tmp/defaults/default.yml
+      - ./logs/splunk:/opt/splunk/var/log/splunk
+      - ./indexes.conf:/opt/splunk/etc/system/local/indexes.conf
+    environment:
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD=splunkpwd1
+    ports:
+      - 8000:8000
+      - 8088:8088
